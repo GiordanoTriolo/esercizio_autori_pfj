@@ -37,7 +37,6 @@ public class MainAutori {
 	            selectStatement.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
-		
+	        }		
 	}
 }

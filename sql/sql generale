@@ -24,24 +24,43 @@ values
 
 
 
+drop procedure if exists get_age_autori_nazione;
 delimiter $$
 create procedure get_age_autori_nazione(in nazioneAutore varchar(20))
 begin
-	drop table if exists autori_eta_temp;
-	create table autori_eta_temp(
-		nome varchar(25),
-		cognome varchar(25),
-		eta int
-	);
+	 -- Dichiarazione delle variabili per i dati del cursore
+    DECLARE done INT DEFAULT 0;
+    DECLARE nome_autore VARCHAR(255);
+    DECLARE cognome_autore VARCHAR(255);
+    DECLARE data_di_nascita int;
+       declare age int;
 
-	INSERT INTO autori_eta_temp (nome, cognome, eta)
-    SELECT nomeA, cognomeA, get_age_by_autore(nomeA, cognomeA)
-    FROM autori
-    WHERE annoM is null  AND nazione = nazioneAutore;
-    
-   
-    SELECT * FROM autori_eta_temp;
+    DECLARE cur CURSOR for
+        SELECT nomeA,cognomeA,annoN
+        FROM autori
+        WHERE nazione = nazioneAutore AND annoM IS NULL;
 
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    DROP TABLE IF EXISTS autori_eta_temp;
+    CREATE TABLE autori_eta_temp (
+        nome VARCHAR(255),
+        cognome VARCHAR(255),
+        eta INT
+    );
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO nome_autore, cognome_autore, data_di_nascita;
+        IF done = 1 THEN 
+            LEAVE read_loop;
+        END IF;
+           SET age = get_age_by_autore(nome_autore, cognome_autore);
+        INSERT INTO autori_eta_temp (nome, cognome, eta)
+        VALUES (nome_autore, cognome_autore, age);
+    END LOOP read_loop;
+    CLOSE cur;
+       select 'operazione conclusa';
 end$$
 
 
