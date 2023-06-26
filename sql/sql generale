@@ -1,0 +1,58 @@
+CREATE TABLE AUTORI (
+  CodiceA INT AUTO_INCREMENT PRIMARY KEY,
+  NomeA VARCHAR(255),
+  CognomeA VARCHAR(255),
+  AnnoN INT,
+  AnnoM INT,
+  Sesso CHAR(1),
+  Nazione VARCHAR(255)
+);
+
+
+insert into autori 
+(NomeA, CognomeA, AnnoN, AnnoM, Sesso, Nazione)
+values
+('Alessandro', 'Manzoni', 1785, 1873, 'M', 'Italia'),
+('Lev', 'Tolstoj', 1828, 1910, 'M', 'Russia'),
+('Bruno', 'Vespa', 1944, null, 'M', 'Italia'),
+('Stephen', 'King', 1947, null, 'M', 'Stati Uniti'),
+('Ernest', 'Hemingway', 1899, 1861, 'M', 'Stati Uniti'),
+('Umberto', 'Eco', 1932, 2016, 'M', 'Italia'),
+('Virginia', 'Woolf', 1882, 1941, 'F', 'Inghilterra'),
+('Agatha', 'Christie', 1890, 1976, 'F', 'Inghilterra'),
+('Susanna', 'Tamaro', 1957, null, 'F', 'Italia');
+
+
+
+delimiter $$
+create procedure get_age_autori_nazione(in nazioneAutore varchar(20))
+begin
+	drop table if exists autori_eta_temp;
+	create table autori_eta_temp(
+		nome varchar(25),
+		cognome varchar(25),
+		eta int
+	);
+
+	INSERT INTO autori_eta_temp (nome, cognome, eta)
+    SELECT nomeA, cognomeA, get_age_by_autore(nomeA, cognomeA)
+    FROM autori
+    WHERE annoM is null  AND nazione = nazioneAutore;
+    
+   
+    SELECT * FROM autori_eta_temp;
+
+end$$
+
+
+drop function if exists get_age_by_autore;
+CREATE FUNCTION get_age_by_autore(nome VARCHAR(25), cognome VARCHAR(25)) RETURNS INT DETERMINISTIC
+BEGIN
+    DECLARE eta INT;
+    DECLARE annoNascita INT;
+
+    SELECT AnnoN INTO annoNascita FROM autori WHERE nomeA = nome AND cognomeA = cognome;
+
+    SET eta = YEAR(CURRENT_DATE) - annoNascita;
+    RETURN eta;
+END
