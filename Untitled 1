@@ -1,0 +1,63 @@
+1 creaiamo funzione che passando il nome e cognome di una autore restituisce l'eta(numero di anni)
+get_age_by_autore
+ 
+
+
+2 creiamo una  procedura get_age_autori_nazione(in nazione varchar)
+ 
+-drop se esiste la tabella  autori_eta_temp.
+
+-crea tabella autori_eta_temp(nomen varchar,cognome eta int).
+
+-estrarre  tutti gli autori viventi della nazione indicata -per ogni autore vivente chiamando  
+la funzione get_age_by_autore inserisce i valori ottenuti nella tabella autori_eta_temp.
+
+-select dalla tabella autori_eta_temp.
+
+
+3 Classe java main che chiama la procedura e memorizza i dati in una lista che poi stampa a video.
+
+4 Creare sql per ricreare la tabella autore, inserire i record nella tabella autori, creare la funzione, creare la procedura.
+
+5 Salvare su un file .java la classe Main per il lancio del test dell'applicazione.
+Riportiamo l'applicazione o il progetto su GitHub
+
+Versione codice  in progetto java gia' esistente:
+
+6 creiamo una cartella c:\Script\esercizio_pfj\... .sql e Main.java e DHandler.java
+
+7 creiamo su GitHub un repository pubblico esercizio_pfj
+
+8 pubblichiamo su GitHub i nostri progetto:
+
+
+file:
+-fare git init nella cartella \esercizio_pfj
+
+or push an existing repository from the command line
+git remote add origin https://github.com/<nome_github>/esercizio_pfj.git
+git branch -M main
+git push -u origin main
+
+verificare che gli script sono su gitHub.
+
+Opzionale{ : creare procedura get_age_autori_nazione_cursore(in nazione varchar) utilizzando un cursore.
+
+pubblicare su GitHub lo script di questa nuova procedura.}
+Version progetto java nuovo:
+creare nel progetto java cartella \sql in cui inserire gli script .sql
+-creare su gitHub repository di tutto il progetto java es:ProgettoEs_pfj
+
+-creare un file .git.ignore : 
+*.class
+*.jar
+target/
+bin/
+-nella cartella del progetto: git init
+
+or push an existing repository from the command line
+git remote add origin https://github.com/<nome_github>/ProgettoEs_pfj.git
+git branch -M main
+git push -u origin main
+
+verificare che il progetto e' posizionato su gitHub.
